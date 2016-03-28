@@ -1,0 +1,19 @@
+## Receive options.
+set imap_user="aline@riseup.net"
+set imap_pass=`gkeyring -k login -p 'user=aline,protocol=imap' -o secret`
+# set imap_pass="3AE3AmmiWbMppxi"
+set folder=imaps://mail.riseup.net/
+set spoolfile=+INBOX
+set postponed=+Drafts
+set record=+Sent
+
+## Send options.
+set from=$imap_user
+set smtp_url=smtps://$imap_user:$imap_pass@mail.riseup.net
+set signature="Aline Freitas"
+# Connection options
+set ssl_force_tls=yes
+unset ssl_starttls
+
+## Hook -- IMPORTANT!
+# account-hook riseup.net "set imap_user=alinefreitas.com.br imap_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`"

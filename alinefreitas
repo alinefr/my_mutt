@@ -1,0 +1,19 @@
+## Receive options.
+set imap_user="aline@alinefreitas.com.br"
+set imap_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`
+# set imap_pass="hjn06r2phrmj"
+set folder=imaps://imap.zoho.com/
+set spoolfile=+INBOX
+set postponed=+Drafts
+set record=+Sent
+
+## Send options.
+set from=$imap_user
+set smtp_url=smtps://$imap_user:$imap_pass@smtp.zoho.com
+set signature="Aline Freitas"
+# Connection options
+set ssl_force_tls=yes
+unset ssl_starttls
+
+## Hook -- IMPORTANT!
+# account-hook alinefreitas.com.br "set imap_user=alinefreitas.com.br imap_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`"
