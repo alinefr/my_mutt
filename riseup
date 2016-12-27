@@ -1,9 +1,27 @@
+
+## Hook -- IMPORTANT!
+# account-hook riseup.net "set imap_user=alinefreitas.com.br imap_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`"
+
+# Identity
+set my_name="Aline Freitas"
+set realname=$my_name
+set editor=`echo \$EDITOR`
+set use_from=yes
+
+# IMAP
+# mailboxes =imaps://mail.riseup.net/Inbox
+set imap_check_subscribed
+set header_cache="~/.cache/mutt"
+set message_cachedir="~/.cache/mutt/messages"
+unset imap_passive
+set imap_keepalive=300
+set mail_check=120
+
 ## Receive options.
 set imap_user="aline@riseup.net"
 set imap_pass=`gkeyring -k login -p 'user=aline,protocol=imap' -o secret`
-# set imap_pass="3AE3AmmiWbMppxi"
 set folder=imaps://mail.riseup.net/
-set spoolfile=+INBOX
+set spoolfile=+Inbox
 set postponed=+Drafts
 set record=+Sent
 
@@ -14,6 +32,69 @@ set signature="Aline Freitas"
 # Connection options
 set ssl_force_tls=yes
 unset ssl_starttls
+ 
+# Fetch mail shortcut
+bind index G imap-fetch-mail
 
-## Hook -- IMPORTANT!
-# account-hook riseup.net "set imap_user=alinefreitas.com.br imap_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`"
+# GPG
+set crypt_use_gpgme=yes
+set pgp_use_gpg_agent=yes
+set pgp_sign_as=0x9EC12939
+set pgp_timeout=3600
+set crypt_autosign=yes
+set crypt_replyencrypt=yes
+set pgp_auto_decode=yes
+
+# Headers
+source ~/.mutt/headers
+
+# Keybindings
+source ~/.mutt/keybinding
+
+# Charset
+set send_charset="us-ascii:utf-8"
+
+# Printing
+set print_command="/usr/bin/muttprint %s -p {PrinterName}"
+
+# Macros
+source ~/.mutt/macros
+
+# Mailcap
+set mailcap_path=~/.mutt/mailcap
+auto_view text/html
+alternative_order text/plain text/html
+
+# Theme
+source ~/.mutt/colors
+
+# Index format
+set date_format="%d/%m/%Y %H:%M"
+set index_format="%2C | %Z [%d] %-30.30F (%-4.4c) %s"
+
+set my_index_format_pre='set my_col_from = `echo $((30 * ($(tput cols)-35-24) / 100))`; set my_col_subject = `echo $((70 * ($(tput cols)-35-24) / 100))`; set index_format="%2C | %Z [%d] %-$my_col_from.${my_col_from}'
+set my_index_format_post=' (%-4.4c) %?M?<%M> ?%-$my_col_subject.${my_col_subject}s"'
+
+folder-hook .*[sS]ent.* "$my_index_format_pre"t"$my_index_format_post"
+folder-hook ! .*[sS]ent.* "$my_index_format_pre"F"$my_index_format_post"
+
+# Adresses aliases
+set alias_file="~/.mutt/aliases"
+set sort_alias=alias
+set reverse_alias=yes
+source $alias_file
+
+set sleep_time=0
+
+# Sidebar
+set sidebar_visible=yes
+set sidebar_width=24
+
+macro index b '<enter-command>toggle sidebar_visible<enter><refresh>'
+macro pager b '<enter-command>toggle sidebar_visible<enter><redraw-screen>'
+
+# Ctrl-n, Ctrl-p to select next, previous folder.
+# Ctrl-o to open selected folder.
+bind index,pager \CP sidebar-prev
+bind index,pager \CN sidebar-next
+bind index,pager \CO sidebar-open

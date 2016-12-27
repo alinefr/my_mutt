@@ -1,7 +1,6 @@
 ## Receive options.
 set imap_user="aline@alinefreitas.com.br"
 set imap_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`
-# set imap_pass="hjn06r2phrmj"
 set folder=imaps://imap.zoho.com/
 set spoolfile=+INBOX
 set postponed=+Drafts
