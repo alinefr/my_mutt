@@ -1,7 +1,3 @@
-
-## Hook -- IMPORTANT!
-# account-hook riseup.net "set imap_user=alinefreitas.com.br imap_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`"
-
 # Identity
 set my_name="Aline Freitas"
 set realname=$my_name
@@ -9,32 +5,44 @@ set editor=`echo \$EDITOR`
 set use_from=yes
 
 # IMAP
-# mailboxes =imaps://mail.riseup.net/Inbox
 set imap_check_subscribed
-set header_cache="~/.cache/mutt"
-set message_cachedir="~/.cache/mutt/messages"
 unset imap_passive
 set imap_keepalive=300
 set mail_check=120
 
-## Receive options.
-set imap_user="aline@riseup.net"
-set imap_pass=`gkeyring -k login -p 'user=aline,protocol=imap' -o secret`
-set folder=imaps://mail.riseup.net/
-set spoolfile=+Inbox
-set postponed=+Drafts
-set record=+Sent
-
 ## Send options.
-set from=$imap_user
-set smtp_url=smtps://$imap_user:$imap_pass@mail.riseup.net
 set signature="Aline Freitas"
 # Connection options
 set ssl_force_tls=yes
 unset ssl_starttls
+
+# 
+# Folder hooks
+folder-hook 'alinefreitas.com.br' 'source ~/.mutt/alinefreitas.com.br'
+folder-hook 'riseup.net' 'source ~/.mutt/riseup.net'
+ 
+# Default account
+source ~/.mutt/alinefreitas.com.br
+ 
+# Macros for switching accounts
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/alinefreitas.com.br<enter><change-folder>!<enter>'
+macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/riseup.net<enter><change-folder>!<enter>'
  
 # Fetch mail shortcut
 bind index G imap-fetch-mail
+
+# set my_pw_alinefreitas=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`
+# set my_pw_riseup=`gkeyring -k login -p 'user=aline,protocol=imap' -o secret`
+# account-hook alinefreitas.com.br "set imap_user=aline@alinefreitas.com.br imap_pass=$my_pw_alinefreitas"
+# account-hook riseup.net "set imap_user=aline imap_pass=$my_pw_riseup"
+# 
+# # alinefreitas.com.br
+# source "~/.config/mutt/alinefreitas"
+# folder-hook alinefreitas.com.br 'source ~/.config/mutt/alinefreitas'
+# 
+# # riseup.net
+# source "~/.config/mutt/riseup"
+# folder-hook riseup.net 'source ~/.config/mutt/riseup'
 
 # GPG
 set crypt_use_gpgme=yes
@@ -42,8 +50,9 @@ set pgp_use_gpg_agent=yes
 set pgp_sign_as=0x9EC12939
 set pgp_timeout=3600
 set crypt_autosign=yes
+set crypt_autosmime = yes
+set pgp_autoinline = yes
 set crypt_replyencrypt=yes
-set pgp_auto_decode=yes
 
 # Headers
 source ~/.mutt/headers
