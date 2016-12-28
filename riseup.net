@@ -1,7 +1,7 @@
-set imap_user="aline@riseup.net"
-set imap_pass=`gkeyring -k login -p 'user=aline,protocol=imap' -o secret`
+set imap_user=$my_riseup_user
+set imap_pass=$my_riseup_pass
 set smtp_url=smtps://$imap_user:$imap_pass@mail.riseup.net
-set from=$imap_user
+set from=$imap_user@riseup.net
 set folder=imaps://mail.riseup.net/
 set spoolfile=+Inbox
 set postponed=+Drafts
