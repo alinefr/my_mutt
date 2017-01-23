@@ -1,0 +1,10 @@
+set imap_user=$my_lambda_user
+set imap_pass=$my_lambda_pass
+set smtp_url=smtp://$imap_user:$imap_pass@smtp.office365.com:587
+set from=$imap_user
+set folder="imaps://outlook.office365.com"
+set spoolfile=+INBOX
+set postponed=+Drafts
+set header_cache="~/.cache/mutt"
+set message_cachedir="~/.cache/mutt/messages"
+set record=+Sent

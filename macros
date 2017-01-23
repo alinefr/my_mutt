@@ -1,3 +1,4 @@
 macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'
-macro attach 'V' "<pipe-entry>cat >~/.cache/mutt/mail.html && $BROWSER ~/.cache/mutt/mail.html && rm ~/.cache/mutt/mail.html<enter>"
+macro attach 'V' "<pipe-entry>cat >~/.cache/mutt/mail.html && /usr/bin/xdg-open ~/.cache/mutt/mail.html && rm ~/.cache/mutt/mail.html<enter>"
 macro index,pager \CL "<enter-command>$my_index_format_pre"F"$my_index_format_post<enter><redraw-screen>"
+macro pager \Ck  "!/usr/bin/khal --new $(~/.mutt/mutt2khal ~/.cache/mutt/caldata)" "Saving Calendar event"

@@ -5,35 +5,41 @@ set editor=`echo \$EDITOR`
 set use_from=yes
 
 # IMAP
-set imap_check_subscribed
-unset imap_passive
-set imap_keepalive=300
+set imap_user="aline.freitas@lambda3.com.br"
+set imap_pass=`gkeyring -k login -p 'user=aline.freitas@lambda3.com.br,protocol=imap' -o secret`
+set from="$imap_user"
+set folder="imaps://outlook.office365.com/"
+set spoolfile="+INBOX"
+set postponed="+Drafts"
+set record="+Sent Items"
+set trash="+Trash"
+mailboxes
+
+set imap_check_subscribed="yes"
+set timeout=30
 set mail_check=120
-set my_aline_user="aline@alinefreitas.com.br"
-set my_aline_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`
-set my_riseup_user="aline"
-set my_riseup_pass=`gkeyring -k login -p 'user=aline,protocol=imap' -o secret`
+set imap_keepalive=300
+set imap_idle
+unset mark_old
+set ssl_use_sslv3=yes
+
+set header_cache=~/.mutt/cache/headers
+set message_cachedir=~/.mutt/cache/bodies
+
+# SMTP
+set smtp_pass = $imap_pass
+set smtp_url = "smtp://$imap_user@outlook.office365.com:587/"
+set ssl_force_tls = yes
+unset ssl_starttls
+set smtp_authenticators = "login"
+
+# set envelope_from=yes
+# my_hdr From: "aline.freitas@lambda3.com.br"
 
 ## Send options.
 set signature="Aline Freitas"
 # Connection options
-set ssl_force_tls=yes
-unset ssl_starttls
 
-# Macros for switching accounts
-macro index <f2> '<sync-mailbox><refresh><enter-command>source ~/.mutt/alinefreitas.com.br<enter><change-folder>!<enter>'
-macro index <f3> '<sync-mailbox><refresh><enter-command>source ~/.mutt/riseup.net<enter><change-folder>!<enter>'
- 
-# Folder hooks
-folder-hook 'alinefreitas.com.br' 'source ~/.mutt/alinefreitas.com.br'
-folder-hook 'riseup.net' 'source ~/.mutt/riseup.net'
-
-account-hook imaps://imap.zoho.com/ 'set imap_user=$my_aline_user imap_pass=$my_aline_pass smtp_pass=$my_aline_pass'
-account-hook imaps://mail.riseup.net/ 'set imap_user=$my_riseup_user imap_pass=$my_riseup_pass smtp_pass=$my_riseup_pass'
-
-# Default account
-source ~/.mutt/alinefreitas.com.br
- 
 # Fetch mail shortcut
 bind index G imap-fetch-mail
 
@@ -44,7 +50,7 @@ set pgp_sign_as=0x9EC12939
 set pgp_timeout=3600
 set crypt_autosign=yes
 set crypt_autosmime = yes
-set pgp_autoinline = yes
+# set pgp_autoinline = yes
 set crypt_replyencrypt=yes
 
 # Headers
