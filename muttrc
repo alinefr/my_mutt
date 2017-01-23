@@ -12,10 +12,12 @@ set folder="imaps://outlook.office365.com/"
 set spoolfile="+INBOX"
 set postponed="+Drafts"
 set record="+Sent Items"
-set trash="+Trash"
-mailboxes
+set trash="+Deleted Items"
+mailboxes +INBOX +Archive +Drafts +Sent\ Items +Deleted\ Items +ZUP
 
-set imap_check_subscribed="yes"
+# set imap_check_subscribed
+unset imap_passive
+unset imap_peek
 set timeout=30
 set mail_check=120
 set imap_keepalive=300
