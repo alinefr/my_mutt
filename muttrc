@@ -13,7 +13,7 @@ set spoolfile="+INBOX"
 set postponed="+Drafts"
 set record="+Sent Items"
 set trash="+Deleted Items"
-mailboxes +INBOX +Archive +Drafts +Sent\ Items +Deleted\ Items +ZUP
+mailboxes +INBOX +Archive +Drafts +Sent\ Items +Deleted\ Items +ZUP +Issues
 
 # set imap_check_subscribed
 unset imap_passive
@@ -67,6 +67,11 @@ set send_charset="us-ascii:utf-8"
 # Printing
 set print_command="/usr/bin/muttprint %s -p {PrinterName}"
 
+# Khard
+set query_command="khard email --parsable '%s'"
+bind editor <Tab> complete-query
+bind editor ^T    complete
+
 # Macros
 source ~/.mutt/macros
 
@@ -76,11 +81,12 @@ auto_view text/html
 alternative_order text/plain text/html
 
 # Theme
-source ~/.mutt/colors
+source ~/.mutt/vombatidae.mutt
 
 # Index format
 set date_format="%d/%m/%Y %H:%M"
 set index_format="%2C | %Z [%d] %-30.30F (%-4.4c) %s"
+set sort=threads
 
 set my_index_format_pre='set my_col_from = `echo $((30 * ($(tput cols)-35-24) / 100))`; set my_col_subject = `echo $((70 * ($(tput cols)-35-24) / 100))`; set index_format="%2C | %Z [%d] %-$my_col_from.${my_col_from}'
 set my_index_format_post=' (%-4.4c) %?M?<%M> ?%-$my_col_subject.${my_col_subject}s"'
