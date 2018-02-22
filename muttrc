@@ -9,10 +9,10 @@ set imap_check_subscribed
 unset imap_passive
 set imap_keepalive=300
 set mail_check=120
+set my_escale_user="aline.freitas@escale.com.br"
+set my_escale_pass=`gkeyring -k login -p 'user=aline.freitas@escale.com.br,protocol=imap' -o secret`
 set my_aline_user="aline@alinefreitas.com.br"
 set my_aline_pass=`gkeyring -k login -p 'user=aline@alinefreitas.com.br,protocol=imap' -o secret`
-set my_riseup_user="aline"
-set my_riseup_pass=`gkeyring -k login -p 'user=aline,protocol=imap' -o secret`
 
 ## Send options.
 set signature="Aline Freitas"
@@ -21,31 +21,31 @@ set ssl_force_tls=yes
 unset ssl_starttls
 
 # Macros for switching accounts
-macro index <f2> '<sync-mailbox><refresh><enter-command>source ~/.mutt/alinefreitas.com.br<enter><change-folder>!<enter>'
-macro index <f3> '<sync-mailbox><refresh><enter-command>source ~/.mutt/riseup.net<enter><change-folder>!<enter>'
+macro index <f2> '<sync-mailbox><refresh><enter-command>source ~/.mutt/escale.com.br<enter><change-folder>!<enter>'
+macro index <f3> '<sync-mailbox><refresh><enter-command>source ~/.mutt/alinefreitas.com.br<enter><change-folder>!<enter>'
  
 # Folder hooks
+folder-hook 'escale.com.br' 'source ~/.mutt/escale.com.br'
 folder-hook 'alinefreitas.com.br' 'source ~/.mutt/alinefreitas.com.br'
-folder-hook 'riseup.net' 'source ~/.mutt/riseup.net'
 
+account-hook imaps://imap.gmail.com/ 'set imap_user=$my_escale_user imap_pass=$my_escale_pass smtp_pass=$my_escale_pass'
 account-hook imaps://imap.zoho.com/ 'set imap_user=$my_aline_user imap_pass=$my_aline_pass smtp_pass=$my_aline_pass'
-account-hook imaps://mail.riseup.net/ 'set imap_user=$my_riseup_user imap_pass=$my_riseup_pass smtp_pass=$my_riseup_pass'
 
 # Default account
-source ~/.mutt/alinefreitas.com.br
+source ~/.mutt/escale.com.br
  
 # Fetch mail shortcut
 bind index G imap-fetch-mail
 
 # GPG
-set crypt_use_gpgme=yes
-set pgp_use_gpg_agent=yes
-set pgp_sign_as=0x9EC12939
-set pgp_timeout=3600
-set crypt_autosign=yes
-set crypt_autosmime = yes
-set pgp_autoinline = yes
-set crypt_replyencrypt=yes
+# set crypt_use_gpgme=yes
+# set pgp_use_gpg_agent=yes
+# set pgp_sign_as=0x9EC12939
+# set pgp_timeout=3600
+# set crypt_autosign=yes
+# set crypt_autosmime = yes
+# set pgp_autoinline = yes
+# set crypt_replyencrypt=yes
 
 # Headers
 source ~/.mutt/headers
@@ -73,6 +73,7 @@ source ~/.mutt/colors
 # Index format
 set date_format="%d/%m/%Y %H:%M"
 set index_format="%2C | %Z [%d] %-30.30F (%-4.4c) %s"
+set sort=threads
 
 set my_index_format_pre='set my_col_from = `echo $((30 * ($(tput cols)-35-24) / 100))`; set my_col_subject = `echo $((70 * ($(tput cols)-35-24) / 100))`; set index_format="%2C | %Z [%d] %-$my_col_from.${my_col_from}'
 set my_index_format_post=' (%-4.4c) %?M?<%M> ?%-$my_col_subject.${my_col_subject}s"'
